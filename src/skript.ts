@@ -1,5 +1,3 @@
-console.log("Loading " + __filename);
-
 import { ExtensionRegistry } from "./registry/extension";
 import type { SyntaxRegistration } from "./registry/syntax";
 import { Types } from "./registry/types";

@@ -1,5 +1,3 @@
-console.log("Loading " + __filename);
-
 import type { BlockContainer } from "./blockContainer";
 import { SyntaxElement, SyntaxType } from "./element";
 

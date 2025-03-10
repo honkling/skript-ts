@@ -15,7 +15,7 @@ export class ScriptLoadStructure extends Structure {
         }
 
         public initialize(skript: Skript, match: MatchPatternResult): ScriptLoadStructure {
-            return new ScriptLoadStructure();
+            return new ScriptLoadStructure(skript);
         }
     }
 

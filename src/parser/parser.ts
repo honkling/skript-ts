@@ -27,9 +27,7 @@ export class SkriptParser {
         const structures = [];
 
         while (this.location.peekInput().trim() !== "") {
-            console.log("Parsing structure!");
             const result = this.parseStructure();
-            console.log(result.isSuccess());
 
             if (result.isFailure()) {
                 if (!scriptMode) {
@@ -45,7 +43,6 @@ export class SkriptParser {
             }
 
             const structure = result.getValue();
-            console.log(structure);
 
             if (this.location.peek() !== ":") {
                 this.logger.error("Expected ':' after structure");
@@ -97,7 +94,6 @@ export class SkriptParser {
                 continue;
             } else this.location.popSnap();
 
-            console.log(`Now parsing statement '${this.location.peekInput()}'`)
             const match = this.parseStatement(indentation, expectedCount);
 
             if (match.isFailure()) {
@@ -139,7 +135,7 @@ export class SkriptParser {
                     if (blockMatch.isSuccess())
                         element.block = blockMatch.getValue();
                 }
-            }
+            } else this.location.advanceLine();
 
             return Result.success<Statement>(element);
         }

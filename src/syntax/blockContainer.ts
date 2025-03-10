@@ -1,5 +1,3 @@
-console.log("Loading " + __filename);
-
 import type { Block } from "./block";
 import { SyntaxElement } from "./element";
 import type { Structure } from "./structure";

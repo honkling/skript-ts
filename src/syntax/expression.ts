@@ -1,4 +1,4 @@
-import type { ChangeMode } from "../core/syntax/effect/modify";
+import type { ChangeMode } from "../variable/changeMode";
 import type { Class } from "../lib/types";
 import type { BlockContainer } from "./blockContainer";
 import { SyntaxElement, SyntaxType } from "./element";

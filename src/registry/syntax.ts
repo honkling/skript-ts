@@ -1,12 +1,8 @@
-console.log("Loading " + __filename);
 import type { Class } from "../lib/types";
 import type { MatchPatternResult } from "../pattern/element/element";
-console.log("Loading pattern")
 import { Pattern } from "../pattern/pattern";
-console.log("Loaded pattern");
 import type { Skript } from "../skript";
 import { SyntaxElement, SyntaxType } from "../syntax/element";
-console.log("Loaded syntaxelement");
 
 export class SyntaxRegistry {
     private syntax = new Map<SyntaxType, SyntaxRegistration<SyntaxElement>[]>();
@@ -27,14 +23,14 @@ export class SyntaxRegistry {
 }
 
 export abstract class SyntaxRegistration<T extends SyntaxElement> {
-    public patterns: Pattern[];
+    public patterns: InstanceType<typeof Pattern>[];
 
     constructor(skript: Skript) {
         this.patterns = this.rawPatterns()
             .map((r) => new Pattern(skript, r));
     }
 
-    public matchPattern(input: string, { skript }: { skript: Skript }): MatchPatternResult | null {
+    public matchPattern(input: string, { skript }: { skript: Skript }): InstanceType<typeof MatchPatternResult> | null {
         for (const [index, { compiledPattern: pattern }] of Object.entries(this.patterns)) {
             if (pattern.getKeywords().find((keyword) => !input.includes(keyword)))
                 continue;
@@ -50,5 +46,5 @@ export abstract class SyntaxRegistration<T extends SyntaxElement> {
 
     public abstract rawPatterns(): string[];
     public abstract syntaxElement(): Class<T>;
-    public abstract initialize(skript: Skript, match: MatchPatternResult): T;
+    public abstract initialize(skript: Skript, match: InstanceType<typeof MatchPatternResult>): T;
 }

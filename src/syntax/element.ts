@@ -1,5 +1,3 @@
-console.log("Loading " + __filename);
-
 import type { Skript } from "../skript";
 
 export abstract class SyntaxElement {

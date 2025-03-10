@@ -1,38 +1,40 @@
-console.log("Hello via Bun!")
-
-import { CoreExtension } from "./core/core";
-import { LogLevel, SimpleLogger } from "./lib/logger";
-import { SkriptParser } from "./parser/parser";
-import { Pattern } from "./pattern/pattern";
-import { Skript } from "./skript";
-
-console.log("Hello via Bun!");
-const skript = new Skript();
-
-console.log("Registering types...");
-skript.types.registerType(Object, "object", "objects");
-skript.types.registerType(String, "string", "strings");
-skript.types.registerType(Number, "number", "numbers");
-skript.types.registerType(Boolean, "boolean", "booleans");
-skript.extensions.registerExtension(CoreExtension);
-
-console.log("Parsing...");
-const input = `
-on script load:
-    set {_a} to "hello"
-    print {_a} to console
-`.trim();
-
-console.log("Debugging")
-debugger;
-
-const logger = new SimpleLogger();
-const parser = new SkriptParser(skript, input, logger);
-const script = parser.parse();
-
-for (const { level, message } of logger.entries) {
-    console.log(`${LogLevel[level]}: ${message}`);
-}
-
-for (const structure of script.structures)
-    structure.postLoad();
+export * from "./skript";
+export * from "./variable/variableMap";
+export * from "./variable/changeMode";
+export * from "./literal/variable";
+export * from "./literal/boolean";
+export * from "./literal/integer";
+export * from "./literal/number";
+export * from "./literal/string";
+export * from "./parser/parser";
+export * from "./parser/location";
+export * from "./parser/logger";
+export * from "./parser/script";
+export * from "./core/core";
+export * from "./extension/extension";
+export * from "./syntax/blockContainer";
+export * from "./syntax/structure";
+export * from "./syntax/section";
+export * from "./syntax/block";
+export * from "./syntax/effect";
+export * from "./syntax/expression";
+export * from "./syntax/element";
+export * from "./lib/logger";
+export * from "./lib/result";
+export * from "./lib/types";
+export * from "./type/type";
+export * from "./registry/syntax";
+export * from "./registry/extension";
+export * from "./registry/types";
+export * from "./pattern/pattern";
+export * from "./pattern/element/group";
+export * from "./pattern/element/expression";
+export * from "./pattern/element/regex";
+export * from "./pattern/element/choice";
+export * from "./pattern/element/literal";
+export * from "./pattern/element/element";
+export * from "./core/syntax/structure/scriptLoad";
+export * from "./core/syntax/structure/event";
+export * from "./core/syntax/effect/modify";
+export * from "./core/syntax/effect/print";
+export * from "./core/syntax/expression/test";

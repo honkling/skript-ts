@@ -118,6 +118,7 @@ export class ExpressionElement implements PatternElement<ExpressionMetadata> {
             const objectType = skript.types.getType(Object);
             const expression = new ExpressionElement(objectType);
             let name = "";
+            index++;
 
             while (index < input.length && input[index] !== "}" && input[index] !== "\n") {
                 const character = input[index++];

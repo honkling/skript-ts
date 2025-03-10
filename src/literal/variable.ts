@@ -1,4 +1,4 @@
-import { ChangeMode } from "../core/syntax/effect/modify";
+import { ChangeMode } from "../variable/changeMode";
 import type { Class } from "../lib/types";
 import { ExpressionElement } from "../pattern/element/expression";
 import type { Skript } from "../skript";
@@ -27,7 +27,7 @@ export class VariableExpression extends Expression<any> {
 
     public change(mode: ChangeMode, container: BlockContainer, expression: Expression<unknown> | null): void {
         const { symbols } = container.structure!;
-        const name = this.cachedName!;
+        const name = this.getName(container);
 
         switch (mode) {
             case ChangeMode.Set: {
@@ -36,8 +36,13 @@ export class VariableExpression extends Expression<any> {
             }
             case ChangeMode.Add:
             case ChangeMode.Subtract: {
-                const value = expression!.get(container) as any[];
+                const value = symbols.get(name) as any[];
                 const expr = expression!.get(container);
+
+                // if (!name.endsWith("::*")) {
+                    // const type = container.skript.types.getType(value.constructor);
+                    // type.
+                // }
 
                 const method = mode === ChangeMode.Add ? value.push : (...elements: any[]) => {
                     for (const element of elements) {
@@ -70,7 +75,6 @@ export class VariableExpression extends Expression<any> {
         if ((mode === ChangeMode.Add || mode === ChangeMode.Subtract) && !Array.isArray(value))
             return false;
 
-        this.cachedName = name;
         return true;
     }
 
@@ -81,6 +85,13 @@ export class VariableExpression extends Expression<any> {
     }
 
     private getName(container: BlockContainer): string {
+        if (this.cachedName)
+            return this.cachedName;
+
+        return this.cachedName = this.evaluateName(container);
+    }
+
+    private evaluateName(container: BlockContainer): string {
         const objectType = this.skript.types.getType(Object);
         let index = 0;
         let name = "";

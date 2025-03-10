@@ -1,5 +1,3 @@
-console.log("Loading " + __filename);
-
 import type { Class } from "../../../lib/types";
 import type { MatchPatternResult } from "../../../pattern/element/element";
 import { Effect } from "../../../syntax/effect";
@@ -7,6 +5,7 @@ import type { Skript } from "../../../skript";
 import type { BlockContainer } from "../../../syntax/blockContainer";
 import type { Expression } from "../../../syntax/expression";
 import { SyntaxRegistration } from "../../../registry/syntax";
+import { ChangeMode } from "../../../variable/changeMode";
 
 export class ModifyEffect extends Effect {
     public static Registration = class extends SyntaxRegistration<ModifyEffect> {
@@ -67,13 +66,6 @@ export class ModifyEffect extends Effect {
     }
 
     public execute(container: BlockContainer): void {
-        this.changing.acceptChange(this.mode, container, this.changeWith);
+        this.changing.change(this.mode, container, this.changeWith);
     }
-}
-
-export enum ChangeMode {
-    Set,
-    Add,
-    Subtract,
-    Delete
 }
