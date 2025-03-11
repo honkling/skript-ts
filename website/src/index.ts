@@ -1,26 +1,27 @@
-import { existsSync } from "fs";
-import express from "express";
-import { join } from "path";
+import { DOMExtension } from "./dom/extension";
 
-const app = express();
+const { Skript, CoreExtension, SimpleLogger, SkriptParser, LogLevel } = skriptWeb;
+const skript = new Skript();
 
-app.get("/", (req, res) => {
-    return res.sendFile(join(__dirname, "../static/index.html"));
-});
+skript.types.registerType(Object, "object", "objects");
+skript.types.registerType(String, "string", "strings");
+skript.types.registerType(Number, "number", "numbers");
+skript.types.registerType(Boolean, "boolean", "booleans");
+skript.extensions.registerExtension(CoreExtension);
+skript.extensions.registerExtension(DOMExtension);
 
-app.get("*", (req, res) => {
-    const path = join(__dirname, "../static", req.path);
-
-    console.log(path);
-
-    if (!existsSync(path)) {
-        res.sendStatus(404);
-        return;
+(async () => {
+    const response = await fetch("/index.sk");
+    const input = await response.text();
+    
+    const logger = new SimpleLogger();
+    const parser = new SkriptParser(skript, input, logger);
+    const script = parser.parse();
+    
+    for (const { level, message } of logger.entries) {
+        console.log(`${LogLevel[level]}: ${message}`);
     }
-
-    res.sendFile(path);
-});
-
-app.listen(3000, () => {
-    console.log("Listening.");
+    
+    for (const structure of script.structures)
+        structure.postLoad();
 });

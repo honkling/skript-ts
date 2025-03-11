@@ -1,0 +1,4 @@
+on script load:
+    set {_a} to new element of type "div"
+    add {_a} to document body
+    print {_a} to console

@@ -39,10 +39,15 @@ export class VariableExpression extends Expression<any> {
                 const value = symbols.get(name) as any[];
                 const expr = expression!.get(container);
 
-                // if (!name.endsWith("::*")) {
-                    // const type = container.skript.types.getType(value.constructor);
-                    // type.
-                // }
+                console.log({ name });
+
+                if (!name.endsWith("::*")) {
+                    const currentValue = symbols.get(name);
+                    const type = container.skript.types.getType(value.constructor);
+                    console.log({ type });
+                    type.change(currentValue, mode, container, expression);
+                    return;
+                }
 
                 const method = mode === ChangeMode.Add ? value.push : (...elements: any[]) => {
                     for (const element of elements) {
