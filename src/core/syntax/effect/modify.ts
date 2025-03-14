@@ -66,6 +66,7 @@ export class ModifyEffect extends Effect {
     }
 
     public execute(container: BlockContainer): void {
+        console.log("Execute", ChangeMode[this.mode], container, this.changeWith)
         this.changing.change(this.mode, container, this.changeWith);
     }
 }

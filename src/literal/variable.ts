@@ -22,7 +22,7 @@ export class VariableExpression extends Expression<any> {
 
     public get(container: BlockContainer): any[] {
         const name = this.getName(container);
-        return [container.structure!.symbols.get(name)]
+        return container.structure!.symbols.get(name);
     }
 
     public change(mode: ChangeMode, container: BlockContainer, expression: Expression<unknown> | null): void {

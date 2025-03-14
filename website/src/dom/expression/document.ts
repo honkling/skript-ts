@@ -1,4 +1,4 @@
-import type { Class, Skript, MatchPatternResult } from "../../../../src";
+import type { Class, Skript } from "../../../../src";
 
 export class Document extends skriptWeb.Expression<Element> {
     public static Registration = class extends skriptWeb.SyntaxRegistration<Document> {

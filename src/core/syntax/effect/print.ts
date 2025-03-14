@@ -27,9 +27,6 @@ export class PrintEffect extends Effect {
 
     public execute(container: BlockContainer): void {
         for (const value of this.expression.get(container))
-            if (Array.isArray(value))
-                for (const internalValue of value)
-                    console.log(internalValue);
-            else console.log(value);
+            console.log(value);
     }
 }

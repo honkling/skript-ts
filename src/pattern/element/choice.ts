@@ -20,7 +20,7 @@ export class ChoiceElement implements PatternElement<ChoiceMetadata> {
         const choices: GroupElement[] = [];
 
         while (input[index] !== end) {
-            const [group, offset] = GroupElement.prototype.createPattern(input.substring(index), { skript });
+            const [group, offset] = GroupElement.prototype.createPattern(input.substring(index), { skript, patternNumber: -1 });
             choices.push(group as GroupElement);
             index += offset;
 
@@ -36,7 +36,7 @@ export class ChoiceElement implements PatternElement<ChoiceMetadata> {
 
     public matchPattern(input: string, { skript }: ChoiceMetadata): MatchPatternResult | null {
         for (const group of this.element) {
-            const match = group.matchPattern(input, { skript });
+            const match = group.matchPattern(input, { skript, patternNumber: -1 });
 
             if (match)
                 return match;

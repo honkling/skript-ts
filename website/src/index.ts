@@ -12,7 +12,9 @@ skript.extensions.registerExtension(DOMExtension);
 
 (async () => {
     const response = await fetch("/index.sk");
-    const input = await response.text();
+    const input = (await response.text()).replace(/\r\n/g, "\n");
+
+    console.log(input);
     
     const logger = new SimpleLogger();
     const parser = new SkriptParser(skript, input, logger);
@@ -24,4 +26,4 @@ skript.extensions.registerExtension(DOMExtension);
     
     for (const structure of script.structures)
         structure.postLoad();
-});
+})();

@@ -34,4 +34,17 @@ export class Types {
 
         return this.types.get(id)!;
     }
+
+    public findTypeFromValue(value: any): Type<unknown> {
+        try {
+            return this.getType(value);
+        } catch (_) {
+            for (const [func, id] of this.idMap.entries()) {
+                if (value instanceof func && func !== Object)
+                    return this.types.get(id)!;
+            }
+
+            throw new Error(`There is no type for class '${value.constructor.name}'`);
+        }
+    }
 }

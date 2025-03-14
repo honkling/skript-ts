@@ -24,6 +24,12 @@ export class GroupElement implements PatternElement<GroupMetadata> {
             }
 
             switch (character) {
+                case "\\": {
+                    index++;
+                    const element = new LiteralElement(input[index++]);
+                    elements.push(element);
+                    break;
+                }
                 case "%": {
                     const [element, offset] = ExpressionElement.prototype.createPattern(newInput, { skript });
                     elements.push(element);

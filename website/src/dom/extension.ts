@@ -1,5 +1,7 @@
 import { ChangeMode } from "../../../src";
 import { Document } from "./expression/document";
+import { TextContent } from "./expression/element/textContent";
+import { JSXElement } from "./expression/jsx/jsxElement";
 import { NewElement } from "./expression/newElement";
 
 export class DOMExtension extends skriptWeb.SkriptExtension {
@@ -8,13 +10,15 @@ export class DOMExtension extends skriptWeb.SkriptExtension {
     protected onInitialize() {
         const { syntaxRegistry: syntax, skript } = this;
 
-        const type = skript.types.registerType(Element, "element", "elements")
-        console.log({type,a:type.setAcceptChange});
-        type
+        skript.types.registerType(Element, "element", "elements")
             .setAcceptChange((_, __, expression) => expression?.isSingle() === true)
             .setChange((currentValue, mode, container, expression) => {
                 const parent = currentValue.parentElement;
                 const value = expression!.get(container)[0];
+
+                console.log(expression);
+                console.log("Adding", value, "to", currentValue);
+                console.log(expression!.get(container));
 
                 switch (mode) {
                     case ChangeMode.Set: {
@@ -45,7 +49,9 @@ export class DOMExtension extends skriptWeb.SkriptExtension {
                 }
             });
 
+        syntax.registerSyntaxElement(new TextContent.Registration(skript));
         syntax.registerSyntaxElement(new NewElement.Registration(skript));
         syntax.registerSyntaxElement(new Document.Registration(skript));
+        syntax.registerSyntaxElement(new JSXElement.Registration(skript));
     }
 }
